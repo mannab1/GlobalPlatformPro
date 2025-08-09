@@ -1,0 +1,6 @@
+java -jar gp.jar -d \
+  --install cap/CopilotCard.cap \
+  --create A00000000151000001 \
+  --key-enc 404142434445464748494A4B4C4D4E4F \
+  --key-mac 404142434445464748494A4B4C4D4E4F \
+  --key-dek 404142434445464748494A4B4C4D4E4F

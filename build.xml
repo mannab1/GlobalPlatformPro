@@ -1,0 +1,40 @@
+<project name="CopilotCard" basedir="." default="build">
+
+  <!-- إعداد المسارات -->
+  <property name="jc.home" value="/home/root/javacard-sdk"/>
+  <property name="src.dir" value="src"/>
+  <property name="classes.dir" value="build/classes"/>
+  <property name="cap.dir" value="cap"/>
+
+  <!-- تنظيف الملفات القديمة -->
+  <target name="clean">
+    <delete dir="${classes.dir}"/>
+    <delete dir="${cap.dir}"/>
+  </target>
+
+  <!-- تجميع الكود -->
+  <target name="compile">
+    <mkdir dir="${classes.dir}"/>
+    <javac srcdir="${src.dir}" destdir="${classes.dir}" includeantruntime="false">
+      <classpath>
+        <fileset dir="${jc.home}/lib">
+          <include name="api.jar"/>
+        </fileset>
+      </classpath>
+    </javac>
+  </target>
+
+  <!-- إنشاء ملف CAP -->
+  <target name="build" depends="compile">
+    <mkdir dir="${cap.dir}"/>
+    <exec executable="${jc.home}/bin/converter">
+      <arg value="-out CAP"/>
+      <arg value="-exportpath ${jc.home}/lib/api_export_files"/>
+      <arg value="-classdir ${classes.dir}"/>
+      <arg value="-applet 0xA0:0x00:0x00:0x01:0x51:0x00:0x00:0x01 com.copilot.card.CopilotCard"/>
+      <arg value="-d ${cap.dir}"/>
+      <arg value="com.copilot.card 1.0"/>
+    </exec>
+  </target>
+
+</project>
